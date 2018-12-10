@@ -7,7 +7,6 @@ const routeConfig = require('./config/route-config.js');
 
 // initialize routes
 routeConfig.init(app);
-// initialize env variables stored in .env
-appConfig.init();
+appConfig.init(app, express);
 
 module.exports = app;
