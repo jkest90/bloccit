@@ -5,5 +5,6 @@ const staticController = require('../controllers/staticController')
 
 // routes --> route handler
 router.get('/', staticController.index);
+router.get('/about', staticController.aboutPage);
 
 module.exports = router;
