@@ -8,10 +8,10 @@ module.exports = {
             // if error redirect to landing page.
             res.redirect(500, 'static/index');
          } else {
-            // else, render index template of topics resource & pass collections of topics into it.
+            // else, render index template of topics resource & pass collections of topics into it. returns an array of objects.
             res.render('topics/index', {topics});
          }
       })
    }
-   
+
 }

@@ -26,7 +26,7 @@ module.exports = {
          type: Sequelize.INTEGER,
          onDelete: 'CASCADE',
          references: {
-            model: 'Topics',
+            model: 'Topic',
             // specify that the id in topics table be used as topicId in the banners table.
             key: 'id',
             as: 'topicId',
