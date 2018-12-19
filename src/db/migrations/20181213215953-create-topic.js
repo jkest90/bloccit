@@ -28,3 +28,7 @@ module.exports = {
     return queryInterface.dropTable('Topics');
   }
 };
+
+// topic - 20181213215848
+
+// banner - 20181213215953
