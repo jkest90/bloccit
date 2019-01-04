@@ -1,3 +1,4 @@
+// Tells us where to direct the response from the database request. 
 const topicQueries = require("../db/queries.topics.js");
 
 
