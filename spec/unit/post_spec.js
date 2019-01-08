@@ -1,6 +1,7 @@
 const request = require("request");
 const server = require("../../src/server");
-const sequelize = require("../../src/db/models/index").sequelize;const Topic = require("../../src/db/models").Topic;
+const sequelize = require("../../src/db/models/index").sequelize;
+const Topic = require("../../src/db/models").Topic;
 const Post = require("../../src/db/models").Post;
 
 describe("Post", () => {
