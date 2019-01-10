@@ -1,4 +1,5 @@
 const Topic = require("./models").Topic;
+const Post = require("./models").Post;
 
 module.exports = {
 
@@ -27,13 +28,20 @@ module.exports = {
    },
 
    getTopic(id, callback) {
-      return Topic.findById(id)
-         .then((topic) => {
-            callback(null, topic)
-         })
-         .catch((err) => {
-            callback(err);
-         })
+      return Topic.findById(id, {
+         include: [{
+            model: Post,
+            // Property name we want the returned Posts to be called when topic is returned. 
+            // Call topic.posts to get array of posts that belong to topic.
+            as: "posts"
+         }]
+      })
+      .then((topic) => {
+         callback(null, topic)
+      })
+      .catch((err) => {
+         callback(err);
+      })
    },
 
    deleteTopic(id, callback) {
