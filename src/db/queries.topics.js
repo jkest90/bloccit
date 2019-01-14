@@ -1,5 +1,6 @@
 const Topic = require("./models").Topic;
 const Post = require("./models").Post;
+const Flair = require("./models").Flair;
 
 module.exports = {
 
@@ -31,9 +32,12 @@ module.exports = {
       return Topic.findById(id, {
          include: [{
             model: Post,
-            // Property name we want the returned Posts to be called when topic is returned. 
+            // Property name we want the returned Posts to be called when topic is returned.
             // Call topic.posts to get array of posts that belong to topic.
             as: "posts"
+         }, {
+            model: Flair,
+            as: "flairs"
          }]
       })
       .then((topic) => {
