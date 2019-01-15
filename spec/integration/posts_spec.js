@@ -164,7 +164,8 @@ describe("routes : posts", () => {
          const options = {
             url: `${base}/${this.topic.id}/posts/${this.post.id}/update`,
             form: {
-               title: "Snowman Building Competition"
+               title: "Snowman Building Competition",
+               body: "I love watching them melt slowly."
             }
          };
          request.post(options,
@@ -178,6 +179,30 @@ describe("routes : posts", () => {
                done();
             });
          });
+      });
+
+      it("should not update a post that fails validation", (done) => {
+         const options = {
+            url: `${base}/${this.topic.id}/posts/${this.post.id}/update`,
+            form: {
+               title: "a",
+               body: "b"
+            }
+         };
+
+         request.post(options,
+            (err, res, body) => {
+               Post.findOne({ where: {title: "a"}})
+               .then((post) => {
+                  expect(post).toBeNull();
+                  done();
+               })
+               .catch((err) => {
+                  console.log(err);
+                  done();
+               });
+            }
+         );
       });
 
    });

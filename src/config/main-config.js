@@ -19,7 +19,7 @@ module.exports = {
       app.use(expressValidator());
       // configure and mount express session middleweaer
       app.use(session({
-         secret: process.env.cookieSecret,
+         secret: process.env["cookieSecret"],
          resave: false,
          saveUninitialized: false,
          cookie: { maxAge: 60000 }
