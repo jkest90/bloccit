@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const expressValidator = require("express-validator");
 const session = require("express-session");
 const flash = require("express-flash");
+const passportConfig = require("./passport-config");
 
 module.exports = {
    // function to initialize our Express app:
@@ -22,10 +23,17 @@ module.exports = {
          secret: process.env["cookieSecret"],
          resave: false,
          saveUninitialized: false,
-         cookie: { maxAge: 60000 }
+         cookie: { maxAge: 1.21e+9 } // set cookie to expire in 14 days
       }));
       // mount flash middlwear
       app.use(flash());
+      // initialize passport-config
+      passportConfig.init(app);
+      // provide a middlewear function to add a variable called currentUser that we can access from our templates to get the user in session. 
+      app.use((req, res ,next) => {
+         res.locals.currentUser = req.user;
+         next();
+      })
       // tell express where to find static assets.
       app.use(express.static(path.join(__dirname, '..', 'assets')));
    }
