@@ -3,39 +3,47 @@ const server = require("../../src/server");
 const sequelize = require("../../src/db/models/index").sequelize;
 const Topic = require("../../src/db/models").Topic;
 const Post = require("../../src/db/models").Post;
+const User = require("../../src/db/models").User;
 
 describe("Topic", () => {
 
    beforeEach((done) => {
-      this.topic;
-      this.post;
-      sequelize.sync({
-         force: true
-      })
-      .then((res) => {
+     this.topic;
+     this.post;
+     this.user;
+
+     sequelize.sync({force: true}).then((res) => {
+
+       User.create({
+         email: "starman@tesla.com",
+         password: "Trekkie4lyfe"
+       })
+       .then((user) => {
+         this.user = user; //store the user
+
          Topic.create({
-            title: "MSG Section 119",
-            description: "Food selection"
+           title: "Expeditions to Alpha Centauri",
+           description: "A compilation of reports from recent visits to the star system.",
+           posts: [{
+             title: "My first visit to Proxima Centauri b",
+             body: "I saw some rocks.",
+             userId: this.user.id
+           }]
+         }, {
+           include: {
+             model: Post,
+             as: "posts"
+           }
          })
          .then((topic) => {
-            this.topic = topic;
-            Post.create({
-               title: "Spicy Chicken Sandwhich",
-               body: "Fire.",
-               // topicId foreign key has key identical to this.topic.id
-               topicId: this.topic.id
-            })
-            .then((post) => {
-               this.post = post;
-               done();
-            });
+           this.topic = topic; //store the topic
+           this.post = topic.posts[0]; //store the post
+           done();
          })
-         .catch((err) => {
-            console.log(err)
-            done();
-         });
-      });
+       })
+     });
    });
+
 
    describe("#create()", () => {
 
@@ -99,7 +107,7 @@ describe("Topic", () => {
 
          this.topic.getPosts()
          .then((associatedPosts) => {
-            expect(associatedPosts[0].title).toBe("Spicy Chicken Sandwhich");
+            expect(associatedPosts[0].title).toBe("My first visit to Proxima Centauri b");
             done();
          });
 
