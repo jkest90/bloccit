@@ -50,21 +50,32 @@ module.exports = {
    },
 
    deleteTopic(req, callback) {
+      console.log("topic query: deleting topic");
       return Topic.findById(req.params.id)
       .then((topic) => {
          const authorized = new Authorizer(req.user, topic).destroy();
 
          if (authorized) {
+            console.log("topic query: user is authorized, deleting topic");
             topic.destroy()
             .then((res) => {
+               console.log("topic query: deleted topic, executing callback");
                callback(null, topic);
+            })
+            .catch((err) => {
+               console.log("topic query: topic.destroy threw an error");
+               console.log(err);
+               callback(err);
             });
          } else {
+            console.log("topic query: user not authorized, executing callback with 401");
             req.flash("notice", "You are not authorized to do that.");
             callback(401);
          }
       })
-      .then((err) => {
+      .catch((err) => {
+         console.log("topic query: there was an error, returning it to callback:");
+         console.log(err);
          callback(err);
       })
    },

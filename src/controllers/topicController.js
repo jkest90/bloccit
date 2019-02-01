@@ -54,7 +54,7 @@ module.exports = {
             if(err) {
                res.redirect(500, "topics/new");
             } else {
-               resiredirect(303, `/topics/${topic.id}`);
+               res.redirect(303, `/topics/${topic.id}`);
             }
          });
       } else {
@@ -75,13 +75,11 @@ module.exports = {
 
    destroy(req, res, next) {
       topicQueries.deleteTopic(req, (err, topic) => {
-         topicQueries.deleteTopic(req, (err, topic) => {
-            if (err) {
-               res.redirect(err, `/topics/${req.params.id}`);
-            } else {
-               res.redirect(303, "/topics");
-            }
-         })
+         if (err) {
+            res.redirect(err, `/topics/${req.params.id}`);
+         } else {
+            res.redirect(303, "/topics");
+         }
       })
    },
 
