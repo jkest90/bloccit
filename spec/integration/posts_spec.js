@@ -48,6 +48,21 @@ describe("routes : posts", () => {
 
    ///////////// <----- GUEST CONTEXT -----> /////////////
 
+   describe("guest user viewing post context", () => {
+
+      describe("GET /topics/:topicId/posts/:id", () => {
+
+         it("GET /topics/:topicId/posts/:id", (done) => {
+            request.get(`${base}/${this.topic.id}/posts/${this.post.id}`, (err, res, body) => {
+               expect(err).toBeNull();
+               expect(body).toContain("Snowball Fighting");
+               done();
+            });
+         });
+      });
+
+   }); // END GUEST CONTEXT 
+
 
    ///////////// <----- ADMIN CONTEXT -----> /////////////
 
