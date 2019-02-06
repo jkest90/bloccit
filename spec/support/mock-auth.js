@@ -25,10 +25,10 @@ module.exports = {
       }
 
       function route(req, res) {
-         res.redirect("/")
+         res.redirect("/");
       }
-      
-      app.use(middleware)
-      app.get("/auth/fake", route)
+
+      app.use(middleware);
+      app.get("/auth/fake", route);
    }
 }
