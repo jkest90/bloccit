@@ -26,6 +26,7 @@ module.exports = {
          ]
       })
       .then((post) => {
+         console.log("THIS IS THE ASSOCIATED POST:" ,post);
          callback(null, post);
       })
       .catch((err) => {

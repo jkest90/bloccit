@@ -9,14 +9,14 @@ module.exports = {
    createComment(newComment, callback) {
       return Comment.create(newComment)
       .then((comment) => {
-         console.log("THIS IS A NEW COMMENT:", comment)
+         console.log("THIS IS A NEW COMMENT:", comment);
          callback(null, comment);
       })
       .catch((err) => {
          callback(err);
       });
    },
-
+   
    deleteComment(req, callback) {
       return Comment.findById(req.params.id)
       .then((comment) => {
