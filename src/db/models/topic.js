@@ -10,6 +10,7 @@ module.exports = (sequelize, DataTypes) => {
          allowNUll: false
       }
    }, {});
+
    Topic.associate = function(models) {
       // associations can be defined here
       Topic.hasMany(models.Banner, {
