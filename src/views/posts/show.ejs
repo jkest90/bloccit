@@ -12,7 +12,13 @@
 
          <% include ../static/partials/messages.ejs %>
 
-         <h1> <%= post.title %> </h1>
+         <div style="display: flex; align-items:center;">
+              <% if(currentUser) { %>
+                <% include ../votes/voting.ejs %>
+              <% } %>
+              <h1><%= post.title %></h1>
+         </div>
+         
          <% if (currentUser && (currentUser.id === post.userId || currentUser.isAdmin() )) { %>
             <a href="/topics/<%= post.topicId %>/posts/<%= post.id %>/edit" class="btn btn-warning">Edit</a>
             <form style ="display:initial" action="/topics/<%= post.topicId %>/posts/<%= post.id %>/destroy" method="post">
@@ -29,11 +35,11 @@
          </section>
 
          <section id="comment-list">
-         <% if(post.comments) { %>
-            <% post.comments.forEach((comment) => { %>
-              <%- include("../comments/show.ejs", {comment}) %>
-            <% }) %>
-         <% } %>
+            <% if(post.comments) { %>
+               <% post.comments.forEach((comment) => { %>
+                 <%- include("../comments/show.ejs", {comment}) %>
+               <% }) %>
+            <% } %>
          </section>
 
       </main>
