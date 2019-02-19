@@ -8,6 +8,7 @@ module.exports = {
             if (err) {
                req.flash("error", err);
             }
+            console.log("UPVOTE --------->",vote);
             res.redirect(req.headers.referer);
          });
 
@@ -24,6 +25,7 @@ module.exports = {
             if (err) {
                req.flash("error", err);
             }
+            console.log("DOWNVOTE --------->",vote);
             res.redirect(req.headers.referer);
          });
       } else {

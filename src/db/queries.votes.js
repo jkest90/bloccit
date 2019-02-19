@@ -36,5 +36,8 @@ module.exports = {
          }
       });
    }
-      
+
 }
+
+
+// In your queries, shouldn't the queries increase and decrease by val that is passed in instead of setting the value to the passed in parameter?
