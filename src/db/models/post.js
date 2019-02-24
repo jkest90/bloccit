@@ -55,28 +55,32 @@ module.exports = (sequelize, DataTypes) => {
    Post.prototype.hasUpvoteFor = function(userId) {
 
       return this.getVotes({
-         where: { value: 1,
+         where: {
+                  value: 1,
                   userId: userId,
+                  postId: this.id
                }
          })
-         .then((votes) => {
-            return votes ? true : false;
-      });
+         .then((vote) => {
+            return vote.length !== 0;
+         });
 
    }
 
-   // Post.prototype.hasDownvoteFor = function(userId) {
-   //
-   //    return this.getVotes({
-   //       where: {
-   //             value: -1,
-   //             userId: userId
-   //          }
-   //    })
-   //    .then((votes) => {
-   //       return votes ? true : false;
-   //    })
-   // }
+   Post.prototype.hasDownvoteFor = function(userId) {
+
+      return this.getVotes({
+         where: {
+               value: -1,
+               userId: userId,
+               postId: this.id
+            }
+         })
+         .then((vote) => {
+            return vote.length !== 0;
+         })
+
+   }
 
    return Post;
 };

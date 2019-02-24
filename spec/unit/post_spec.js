@@ -158,25 +158,44 @@ describe("Post", () => {
             postId: this.post.id
          })
          .then((vote) => {
+            console.log("VOTE", vote);
             this.vote = vote;
             this.post.hasUpvoteFor(this.vote.userId)
             .then((hasUpvote) => {
                expect(hasUpvote).toBe(true);
                done();
-            })
+            });
          })
          .catch((err) => {
             console.log(err);
             done();
-         })
-      })
+         });
+      });
 
    });
 
-   // // #5. Voting Assignment
-   // describe("#hasDownvoteFor", () => {
-   //
-   //    it("should return true if user with matching userId has a downvote for a post")
-   //
-   // }) 
+   // #5. Voting Assignment
+   describe("#hasDownvoteFor", () => {
+
+      it("should return true if user with matching userId has a downvote for a post", (done) => {
+         Vote.create({
+            value: -1,
+            userId: this.user.id,
+            postId: this.post.id
+         })
+         .then((vote) => {
+            this.vote = vote;
+            this.post.hasDownvoteFor(this.vote.userId)
+            .then((hasDownvote) => {
+               expect(hasDownvote).toBe(true);
+               done();
+            });
+         })
+         .catch((err) => {
+            console.log(err);
+            done();
+         });
+      });
+
+   });
 });
