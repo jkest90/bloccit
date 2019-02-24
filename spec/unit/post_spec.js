@@ -4,6 +4,7 @@ const sequelize = require("../../src/db/models/index").sequelize;
 const Topic = require("../../src/db/models").Topic;
 const Post = require("../../src/db/models").Post
 const User = require("../../src/db/models").User;
+const Vote = require("../../src/db/models").Vote;
 
 describe("Post", () => {
 
@@ -146,4 +147,23 @@ describe("Post", () => {
      });
 
    });
+
+   // #4. Voting Assignment
+   describe("#hasUpvoteFor", () => {
+
+      it("should return true if user with matching userId has an upvote for post", (done) => {
+         Vote.create({
+            value: 1,
+            userId: this.user.id,
+            postId: this.post.id
+         })
+         .then((vote) => {
+            this.vote = vote;
+            let hasUpvote = this.post.hasUpvoteFor(this.user.id)
+            expect(hasUpvote).toBe(true);
+            done();
+         })
+      })
+
+   })
 });

@@ -271,24 +271,7 @@ describe("Vote", () => {
 
    });
 
-   // #4. Voting Assignment
-   describe("#hasUpvoteFor", () => {
-
-      it("should return true if user with matching userId has an upvote for post", (done) => {
-         Vote.create({
-            value: 1,
-            userId: this.user.id,
-            postId: this.post.id
-         })
-         .then((vote) => {
-            this.vote = vote;
-            let isUpvote = this.post.hasUpvoteFor(this.user.id)
-            expect(isUpvote).toBe(true);
-            done();
-         })
-      })
-
-   })
+   
 
 });
 // Post.prototype.hasUpvoteFor = function(userId) {
