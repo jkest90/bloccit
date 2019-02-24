@@ -52,8 +52,7 @@ describe("routes : votes", () => {
       });
    });
 
-   // test suites go here
-   describe("guest attempting to vote on a post", () => {
+   describe("GUEST attempting to vote on a post", () => {
 
       beforeEach((done) => { // before each suite in this context
          request.get({
@@ -97,9 +96,9 @@ describe("routes : votes", () => {
 
       });
 
-   });
+   }); // END CONTEXT FOR GUEST USER
 
-   describe("signed in user voting on a post", () => {
+   describe("SIGNED IN USER voting on a post", () => {
 
       beforeEach((done) => { // before each suite in this context
          request.get({ // mock authentication
@@ -143,6 +142,47 @@ describe("routes : votes", () => {
                }
             );
          });
+
+         // #2. Voting Assignment
+         it("should not create more than one vote per user for the same post", (done) => {
+            const options = {
+               url: `${base}${this.topic.id}/posts/${this.post.id}/votes/upvote`
+            };
+
+            request.get(options,
+               (err, res, body) => {
+                  Vote.findOne({
+                     where: {
+                        id: 1
+                     }
+                  })
+                  .then((vote) => {
+                     expect(vote).not.toBeNull();
+                     expect(vote.value).toBe(1);
+                     expect(vote.userId).toBe(this.user.id);
+                     expect(vote.postId).toBe(this.post.id);
+
+                     request.get(options,
+                        (err, res, body) => {
+                           Vote.findOne({
+                              where: {
+                                 id: 2
+                              }
+                           })
+                           .then((secondVote) => {
+                              expect(secondVote).toBeNull();
+                              done();
+                           });
+                        }
+                     );
+                  })
+                  .catch((err) => {
+                     console.log(err);
+                     done();
+                  });
+               }
+            );
+         });
       });
 
       describe("GET /topics/:topicId/posts/:postId/votes/downvote", () => {
@@ -175,7 +215,7 @@ describe("routes : votes", () => {
          });
       });
 
-   }); //end context for signed in user
+   }); //END CONTEXT FOR SIGNED IN USER
 
 
 });

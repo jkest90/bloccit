@@ -118,6 +118,22 @@ describe("Vote", () => {
          });
       });
 
+      // #1. Voting Assignment
+      it("should not create a a vote with a value of anything other than 1 or -1", (done) => {
+         Vote.create({
+            value: 2,
+            postId: this.post.id,
+            userId: this.user.id
+         })
+         .then((vote) => {
+            done();
+         })
+         .catch((err) => {
+            expect(err.message).toContain("Validation isIn on value failed");
+            done();
+         });
+      });
+
    });
 
    describe("#setUser()", () => {
@@ -207,7 +223,6 @@ describe("Vote", () => {
                done();
             });
          });
-
       });
 
    });
@@ -235,4 +250,49 @@ describe("Vote", () => {
 
    });
 
+   // #3 Voting Assignment
+   describe("#getPoints()", () => {
+
+      it("should return all points for the associated post", (done) => {
+         Vote.create({
+            value: 1,
+            userId: this.user.id,
+            postId: this.post.id
+         })
+         .then((vote) => {
+            let points = this.post.getPoints();
+            expect(points).toBe(1);
+            done();
+         })
+         .catch((err) => {
+            done();
+         })
+      });
+
+   });
+
+   // #4. Voting Assignment
+   describe("#hasUpvoteFor", () => {
+
+      it("should return true if user with matching userId has an upvote for post", (done) => {
+         Vote.create({
+            value: 1,
+            userId: this.user.id,
+            postId: this.post.id
+         })
+         .then((vote) => {
+            this.vote = vote;
+            let isUpvote = this.post.hasUpvoteFor(this.user.id)
+            expect(isUpvote).toBe(true);
+            done();
+         })
+      })
+
+   })
+
 });
+// Post.prototype.hasUpvoteFor = function(userId) {
+//
+//    if (this.post.userId === userId && this.vote.value === 1) return true;
+//
+// }
