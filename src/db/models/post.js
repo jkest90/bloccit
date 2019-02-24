@@ -56,21 +56,27 @@ module.exports = (sequelize, DataTypes) => {
 
       return this.getVotes({
          where: { value: 1,
-                  userId: userId
-                  // postId: this.post.id
+                  userId: userId,
                }
          })
          .then((votes) => {
-            if (votes.length !== 0) {
-               return true;
-            } else {
-               return false;
-            }
-            // votes.length !== 0 ? true : false;
+            return votes ? true : false;
       });
-      // if (this.vote.userId === userId && this.vote.value === 1) return true;
 
    }
+
+   // Post.prototype.hasDownvoteFor = function(userId) {
+   //
+   //    return this.getVotes({
+   //       where: {
+   //             value: -1,
+   //             userId: userId
+   //          }
+   //    })
+   //    .then((votes) => {
+   //       return votes ? true : false;
+   //    })
+   // }
 
    return Post;
 };

@@ -151,7 +151,7 @@ describe("Post", () => {
    // #4. Voting Assignment
    describe("#hasUpvoteFor", () => {
 
-      it("should return true if user with matching userId has an upvote for post", (done) => {
+      it("should return true if user with matching userId has an upvote for a post", (done) => {
          Vote.create({
             value: 1,
             userId: this.user.id,
@@ -159,11 +159,24 @@ describe("Post", () => {
          })
          .then((vote) => {
             this.vote = vote;
-            let hasUpvote = this.post.hasUpvoteFor(this.user.id)
-            expect(hasUpvote).toBe(true);
+            this.post.hasUpvoteFor(this.vote.userId)
+            .then((hasUpvote) => {
+               expect(hasUpvote).toBe(true);
+               done();
+            })
+         })
+         .catch((err) => {
+            console.log(err);
             done();
          })
       })
 
-   })
+   });
+
+   // // #5. Voting Assignment
+   // describe("#hasDownvoteFor", () => {
+   //
+   //    it("should return true if user with matching userId has a downvote for a post")
+   //
+   // }) 
 });
