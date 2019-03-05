@@ -1,6 +1,7 @@
 const User = require("./models").User;
 const Post = require("./models").Post;
 const Comment = require("./models").Comment;
+const Favorite = require("./models").Favorite;
 const bcrypt = require("bcryptjs");
 
 module.exports = {
@@ -46,16 +47,19 @@ module.exports = {
                .then((comments) => {
                   // store returned comments in "comments" property of results object.
                   result["comments"] = comments;
-                  // render "users/show" view with our new results object.
-                  callback(null, result);
-
-               })
-               .catch((err) => {
-                  callback(err);
+                  Favorite.scope({ method: ["allFavs", id]}).all()
+                  .then((favorites) => {
+                     result["favorites"] = favorites;
+                     // render "users/show" view with our new result object.
+                     console.log("RESULT", result);
+                     callback(null, result);
+                  })
+                  .catch((err) => {
+                     callback(err);
+                  });
                });
             });
          }
-
       });
    }
 
