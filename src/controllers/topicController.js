@@ -31,7 +31,7 @@ module.exports = {
    },
 
    new(req, res, next) {
-      const authorized = new Authorizer(req.user).new();
+      const authorized = new Authorizer(req.user).create();
       if (authorized) {
          res.render("topics/new");
       } else {

@@ -14,5 +14,7 @@ router.get("/users/sign_in", userController.signInForm);
 router.post("/users/sign_in", validation.validateUsers, userController.signIn);
 // signs user out
 router.get("/users/sign_out", userController.signOut);
+// get user profile page with matching user id, including last 5 posts and comments.
+router.get("/users/:id", userController.show);
 
 module.exports = router;

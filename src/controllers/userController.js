@@ -48,6 +48,20 @@ module.exports = {
       req.logout();
       req.flash("notice", "You've successfully signed out!");
       res.redirect("/");
+   },
+
+   // load the User object matching the id passed into the params
+   show(req, res, next) {
+      userQueries.getUser(req.params.id, (err, result) => {
+         if(err || result.user === undefined) {
+            req.flash("notice", "No user found with that ID.");
+            res.redirect("/");
+         } else {
+            // render the view and pass in the unpacked object
+            console.log(result);
+            res.render("users/show", result);
+         }
+      });
    }
 
 }
